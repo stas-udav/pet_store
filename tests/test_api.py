@@ -1,7 +1,16 @@
 #! /usr/bin/env python3
 import requests 
-from  variables.config import *
+from .variables.config import *
+from Users.main_user import *
 
+
+# check login user
+def test_login_user():
+    login_user = User("Catbuytrer", "passty123")
+    login_user_status_code = login_user.login()
+    print("User logged", login_user_status_code)
+    assert login_user_status_code == 200
+    
 # Create user
 def test_create_user():
     body = {
@@ -24,10 +33,14 @@ def test_create_user():
 
 # upload pet image + pet Id
 def test_upload_pet_image():
-    headers = {"Authorization": api_key , "Content-Type": "multipart/form-data"}
+    headers = {
+            "Authorization": api_key ,
+            # "Content-Type": "image/jpeg",
+            # "User-Agent": "Mozilla/5.0",
+            "accept": "application/json" }
     # with open(file_path, "rb") as image_file:
     #     image_data = image_file.read()     
-    files = {'image': (open(file_path, 'rb'))}  
+    files = {'file': ('cat.jpg', open('C:/QA/projects/cat_api/cat.jpg', 'rb'), 'multipart/form-data')}
     petId = 240787
     upload_pet_response = requests.post(endpoint + f"/pet/{petId}/uploadImage", headers = headers, files = files)
     status_code = upload_pet_response.status_code
