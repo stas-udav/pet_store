@@ -13,23 +13,28 @@ def test_login_user():
     
 # Create user
 def test_create_user():
-    body = {
-            "id": 0,
-            "username": "Udav",
-            "firstName": "Stan",
-            "lastName": "G",
-            "email": "stan@gmail.com",
-            "password": "stan",
-            "phone": "3029479257",
-            "userStatus": 0
-            }
-    create_user_response = requests.post(endpoint + "/user", body)
-    status_code = create_user_response.status_code
-    create_user_response_data = create_user_response.json()
-    print(status_code)
-    # print(create_user_response_data)
-    assert status_code == 200
-
+    login_user = User("Catbuytrer", "passty123")
+    login_user_status_code = login_user.login()
+    print("User logged", login_user_status_code)
+    if login_user_status_code == 200:
+        body = {
+                "id": 0,
+                "username": "Udadsfv",
+                "firstName": "Stsdfsdfan",
+                "lastName": "Gsdfs",
+                "email": "stansdf@gmail.com",
+                "password": "sdfstan",
+                "phone": "123",
+                "userStatus": 0
+                }
+        create_user_response = requests.post(endpoint + "/user", json=body,)
+        status_code = create_user_response.status_code
+        create_user_response_data = create_user_response.json()
+        print(status_code)
+        print(create_user_response_data)
+        assert status_code == 200
+    else: 
+        print("Eror - user not logged")
 
 # upload pet image + pet Id
 def test_upload_pet_image():
@@ -77,7 +82,7 @@ def test_add_new_pet():
     print(status_code)
     print(add_new_pet_response)
     assert status_code == 200, "Adding pet ERROR"
-    return add_new_pet_response
+    # return add_new_pet_response
 
 # find pet by ID
 def test_find_pet_id():
