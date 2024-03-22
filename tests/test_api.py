@@ -19,8 +19,8 @@ def test_create_user():
     if login_user_status_code == 200:
         body = {
                 "id": 0,
-                "username": "Udadsfv",
-                "firstName": "Stsdfsdfan",
+                "username": "TESTING_USER",
+                "firstName": "TESTING_USER",
                 "lastName": "Gsdfs",
                 "email": "stansdf@gmail.com",
                 "password": "sdfstan",
@@ -33,8 +33,18 @@ def test_create_user():
         print(status_code)
         print(create_user_response_data)
         assert status_code == 200
+        # Check if user was created
+        get_user_response = requests.get(endpoint + "/user/TESTING_USER")
+        new_user_name = get_user_response.json()["username"]  
+        print(new_user_name)      
+        # print(get_user_response.text)
+        assert get_user_response.status_code == 200
+        assert new_user_name == body["username"]
+
     else: 
         print("Eror - user not logged")
+    
+    
 
 # upload pet image + pet Id
 def test_upload_pet_image():
